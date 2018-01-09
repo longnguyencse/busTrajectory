@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TrunkClient</title>
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+      height: 100%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #floating-panel {
+      position: absolute;
+      top: 10px;
+      left: 25%;
+      z-index: 5;
+      background-color: #fff;
+      padding: 5px;
+      border: 1px solid #999;
+      text-align: center;
+      font-family: 'Roboto', 'sans-serif';
+      line-height: 30px;
+      padding-left: 10px;
+    }
+  </style>
+
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!--<script type="text/javascript" src="assets/js/google.maps.Polygon.rotate.min.js"></script>-->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</head>
+<body>
+<app-root></app-root>
+<script>
+  // This example adds a user-editable rectangle to the map.
+  // When the user changes the bounds of the rectangle,
+  // an info window pops up displaying the new bounds.
+
+  var routeBusCoordinates;
+  var map;
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 10.80165985623641, lng: 106.64035136938094},
+      zoom: 13
+    });
+
+//     Create the polyline and add the symbol via the 'icons' property.
+    var routeBusCoordinates = [
+      {lat: 10.80137253 , lng: 106.66230011},
+      {lat: 10.80082703, lng: 106.66173553},
+      {lat: 10.80101967, lng: 106.65911865}
+    ];
+    var flightPath = new google.maps.Polyline({
+      path: routeBusCoordinates,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+    var marker = new google.maps.Marker({
+      position: {lat: 10.80137253 , lng: 106.66230011},
+      map: map,
+      title: 'Hello World!'
+    });
+
+    var marker2 = new google.maps.Marker({
+      position: {lat: 10.80082703, lng: 106.66173553},
+      map: map,
+      title: 'Hello World!'
+    });
+
+    var marker3 = new google.maps.Marker({
+      position: {lat: 10.80101967, lng: 106.65911865},
+      map: map,
+      title: 'Hello World!'
+    });
+    flightPath.setMap(map);
+  }
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-nXs4tpHw_9mX2de81QlyH4AE8OiwHa0&callback=initMap">
+</script>
+</body>
+</html>
