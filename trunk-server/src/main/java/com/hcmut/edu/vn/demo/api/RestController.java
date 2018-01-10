@@ -26,4 +26,11 @@ public class RestController {
 
         return new ResponseEntity(service.findRouteByIdDirection(routeId, directionId), HttpStatus.OK);
     }
+
+    @GetMapping("api/journey/{journeyCode}")
+    public ResponseEntity getJourneyByCode(@PathVariable("journeyCode") String journeyCode) {
+        System.out.println(journeyCode);
+        return new ResponseEntity(service.findJourneyByJourneyCode(journeyCode), HttpStatus.OK);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.hcmut.edu.vn.demo.service;
 
+import com.hcmut.edu.vn.demo.model.JourneryModel;
 import com.hcmut.edu.vn.demo.model.RouteModel;
 
 import javax.transaction.Transactional;
@@ -9,4 +10,5 @@ import java.util.List;
 @Transactional
 public interface Service {
     List<RouteModel> findRouteByIdDirection(int id, int directionId);
+    List<JourneryModel> findJourneyByJourneyCode(String journeyCode);
 }
