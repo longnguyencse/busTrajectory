@@ -1,6 +1,7 @@
 package com.hcmut.edu.vn.demo.parse;
 
 import com.hcmut.edu.vn.demo.model.JourneryModel;
+import com.hcmut.edu.vn.demo.model.JourneryReponsitory;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -8,28 +9,77 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
-public class Journeyparse {
+//@Component
+public class Journeyparse implements ApplicationListener<ContextRefreshedEvent> {
     private final static String FILE_RESOURCE ="journey/JourneyGPS/51B02517.xlsx";
+    @Autowired
+    JourneryReponsitory journeryReponsitory;
+//    public static void main(String[] args) {
+//        Journeyparse journeyparse = new Journeyparse();
+//        try {
+//            journeyparse.readJourneyFromExcel();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    public static void main(String[] args) {
-        Journeyparse journeyparse = new Journeyparse();
-        try {
-            journeyparse.readJourneyFromExcel();
-        } catch (IOException e) {
-            e.printStackTrace();
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        final File folder = new File("D:\\Project\\ACA\\bustrajectory\\trunk-server\\src\\main\\resources\\journey\\JourneyGPS");
+        List<String> files = listFilesForFolder(folder);
+        for (String path: files) {
+            System.out.println("==================== new file: " + path);
+            try {
+                readJourneyFromExcel(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-    private void readJourneyFromExcel() throws IOException {
-        InputStream inputStream = RouteParse.class.getClassLoader().getResourceAsStream(FILE_RESOURCE);
+    public List<String> listFilesForFolder(final File folder) {
+        List<String> files = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else {
+                System.out.println(fileEntry.getPath());
+                files.add(fileEntry.getPath());
+            }
+        }
+        return files;
+    }
+    private void readJourneyFromExcel(String path) throws IOException {
+//        try (Stream<Path> paths = Files.walk(Paths.get("D:\\Project\\ACA\\bustrajectory\\trunk-server\\src\\main\\resources\\journey"))) {
+//            paths
+//                    .filter(Files::isRegularFile)
+//                    .forEach(System.out::println);
+//        }
+//        InputStream inputStream = RouteParse.class.getClassLoader().getResourceAsStream(FILE_RESOURCE);
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(new File(path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+//        ZipSecureFile.setMinInflateRatio(-1.0d);
         Workbook workbook = null;
+
         String type = FilenameUtils.getExtension(FILE_RESOURCE);
+        String name = FilenameUtils.getName(path);
         if ("xls".equals(type)) {
             workbook = new HSSFWorkbook(inputStream);
         } else {
@@ -75,10 +125,12 @@ public class Journeyparse {
             }
             row++;
             journeryModel.setJourneyType(0);
-            journeryModel.setJourneyCode("51B02517");
+            journeryModel.setJourneyCode(name);
             journeryModelList.add(journeryModel);
-//            journeryModelList.save(routeModels);
-            System.out.println(journeryModel.toString());
+            journeryReponsitory.save(journeryModelList);
+//            System.out.println(journeryModel.toString());
         }
     }
+
+
 }

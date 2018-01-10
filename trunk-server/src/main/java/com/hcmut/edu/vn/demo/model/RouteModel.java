@@ -42,11 +42,11 @@ public class RouteModel {
     @Column(name = "lng")
     private double lng;
 
-    @Column(name = "polyline", length = 1000)
+    @Column(name = "polyline", length = 5000)
     private String polyline;
 
     @Column(name = "distance")
-    private int distance;
+    private double distance;
 
     @Column(name = "route_type")
     private int routeType;
