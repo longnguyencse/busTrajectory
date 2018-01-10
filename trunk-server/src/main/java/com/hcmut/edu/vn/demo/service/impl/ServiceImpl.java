@@ -24,7 +24,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<RouteModel> findRouteByIdDirection(int id, int directionId) {
-        return routeReponsitory.findAllByRouteIdAndStationDirection(id, directionId);
+        return routeReponsitory.findAllByRouteIdAndStationDirectionAndRouteType(id, directionId, 0);
     }
 
     @Override

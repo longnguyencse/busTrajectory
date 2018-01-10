@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface RouteReponsitory extends JpaRepository<RouteModel, Integer> {
 
-    List<RouteModel> findAllByRouteIdAndStationDirection(int routeId, int directionId );
+    List<RouteModel> findAllByRouteIdAndStationDirectionAndRouteType(int routeId, int directionId , int route);
 }
