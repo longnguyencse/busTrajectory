@@ -7,7 +7,7 @@ import javax.persistence.*;
 /**
  * Created by nqlong on 10-Jan-18.
  */
-@Data
+//@Data
 @Entity(name = "journey")
 public class JourneryModel {
     @Id
@@ -30,4 +30,51 @@ public class JourneryModel {
     @Column(name = "receiving_time")
     private double receivingTime;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getJourneyCode() {
+        return journeyCode;
+    }
+
+    public void setJourneyCode(String journeyCode) {
+        this.journeyCode = journeyCode;
+    }
+
+    public int getJourneyType() {
+        return journeyType;
+    }
+
+    public void setJourneyType(int journeyType) {
+        this.journeyType = journeyType;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getReceivingTime() {
+        return receivingTime;
+    }
+
+    public void setReceivingTime(double receivingTime) {
+        this.receivingTime = receivingTime;
+    }
 }

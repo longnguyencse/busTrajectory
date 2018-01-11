@@ -39,7 +39,9 @@ public class Journeyparse implements ApplicationListener<ContextRefreshedEvent> 
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        final File folder = new File("D:\\Project\\ACA\\bustrajectory\\trunk-server\\src\\main\\resources\\journey\\JourneyGPS");
+//        final File folder = new File("D:\\Project\\ACA\\bustrajectory\\trunk-server\\src\\main\\resources\\journey\\JourneyGPS");
+        final String PATH = "";
+        final File folder = new File("D:\\learn\\ACA2017\\busTrajectory\\trunk-server\\src\\main\\resources\\journey\\JourneyGPS");
         List<String> files = listFilesForFolder(folder);
         for (String path: files) {
             System.out.println("==================== new file: " + path);
@@ -79,7 +81,7 @@ public class Journeyparse implements ApplicationListener<ContextRefreshedEvent> 
         Workbook workbook = null;
 
         String type = FilenameUtils.getExtension(FILE_RESOURCE);
-        String name = FilenameUtils.getName(path);
+        String name = FilenameUtils.getBaseName(path);
         if ("xls".equals(type)) {
             workbook = new HSSFWorkbook(inputStream);
         } else {
@@ -128,7 +130,6 @@ public class Journeyparse implements ApplicationListener<ContextRefreshedEvent> 
             journeryModel.setJourneyCode(name);
             journeryModelList.add(journeryModel);
             journeryReponsitory.save(journeryModelList);
-//            System.out.println(journeryModel.toString());
         }
     }
 
